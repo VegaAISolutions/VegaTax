@@ -621,4 +621,4 @@ def create_directories():
 
 if __name__ == '__main__':
     create_directories()
-    app.run(host='0.0.0.0', port=443, debug=False,threaded=True,ssl_context=('/certs/cert.pem', '/certs/cert.key'))
+    app.run(host='0.0.0.0', port=443, debug=False,threaded=True,ssl_context=('./certs/cert.pem', './certs/cert.key'))

@@ -1,0 +1,222 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+    <div class="content">
+
+        <div class="row">
+
+            <div class="col-md-2"></div>
+
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">Step 3: Final Calculation</div>
+                    <div class="card-body">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <div class="js-upload-finished">
+                                            <h3>Processed files</h3>
+                                            <div class="list-group">
+                                         {% for l in list %}
+                                            <div style="overflow-y:auto;" class="list-group-item list-group-item-success" >
+                                            {{ l|safe }} <span class="badge alert-success pull-right">Success</span>
+                                            </div>
+                                         {% endfor %}
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-6">
+                                        <h4>Select files from your computer</h4>
+                                        <form action="{{url_for('step3')}}" method="post" enctype="multipart/form-data" id="js-upload-form">
+                                            <div class="form-inline">
+                                                <div class="form-group">
+                                                    <input id="fileUpload" type="file" name="files" multiple>
+                                                </div>
+                                                <button type="submit" class="btn btn-sm btn-primary"
+                                                        id="js-upload-submit">
+                                                    Upload files
+                                                </button>
+                                            </div>
+                                        </form>
+
+                                        <!-- Drop Zone -->
+                                        <h4>Or drag and drop files below</h4>
+                                         <div class="upload-drop-zone" id="drop-zone">
+                                            Just drag and drop files here
+                                        </div>
+
+                                        <div class="col-md-2">
+
+                                        </div>
+
+                                        <div class="row">
+                                        <form class="form-group" action="{{url_for('download')}}" method="GET" enctype="multipart/form-data">
+                                            <input id="downloadBtn" class="btn btn-primary" value="Download 8949" type="submit" />
+                                        </form>
+                                            <div class="col-md-3">
+                                          <form class="form-group" action="{{url_for('download2')}}" method="GET" enctype="multipart/form-data">
+                                    <input id="downloadBtn2" class="btn btn-primary" value="Download 1099-K" type="submit" />
+                                    </form>
+                                    </div>
+                                    </div>
+
+                                        </div>
+                                    </div>
+                                <div class="row">
+                                    <form class="form-inline" method="POST" action="{{ url_for('step3') }}">
+                                        <div class="row">
+                                        <div class="col-md-4">
+                                                Year
+                                                <span class="input-group-addon"></span></button>
+                                             <select name="year_select" class="selectpicker form-control">
+                                            {% for o in taxyears %}
+                                        <option value="{{ o.year }}">{{ o.year }}</option>
+                                        {% endfor %}
+                                        </select>
+                                        </div>
+
+                                        <div class="col-md-5">
+                                            <span class="input-group-addon">Method</span>
+                                            <select name="method_select" class="selectpicker form-control">
+                                            {% for o in taxoptions %}
+                                        <option value="{{ o.type }}">{{ o.type }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+
+
+
+                                    <div class="col-md-2">
+                                        <div align="center"> <button type="submit" class="btn btn-primary">Recalculate</button></div>
+
+                                    </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <p>&nbsp;</p>
+        <div class="row">
+            <div class="col-md-2"></div>
+
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">Calculated Data</div>
+                    <div class="card-body">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+
+                                <div class="col-md-3">
+                                    <form action="#" method="get">
+                                        <div class="input-group">
+                                            <!-- USE TWITTER TYPEAHEAD JSON WITH API TO SEARCH -->
+                                            <input class="form-control" id="system-search" name="q"
+                                                   placeholder="Search for" required>
+                                            <span class="input-group-btn">
+                       <!-- <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button> --->
+                                            </span>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-md-12">
+                                <table class="table table-list-search">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Date Sold</th>
+                                            <th>Exchange</th>
+                                            <th>Action</th>
+                                            <th>Coin</th>
+                                            <th>Volume</th>
+                                            <th>Price</th>
+                                            <th>Fees</th>
+                                            <th>Cost</th>
+                                        </tr>
+                                        </thead>
+                                    <tbody>
+                                    {% for row in trans %}
+                                    <tr>
+                                        <div class="row" style="overflow-y:auto;" >
+                                            <td>{{row.Date|safe}}</td>
+                                            <td>{{row.DateSold|safe}}</td>
+                                            <td>{{row.Exchange|safe}}</td>
+                                            <td>{{row.Action|safe}}</td>
+                                            <td>{{row.Coin|safe}}</td>
+                                            <td>{{row.Volume|safe}}</td>
+                                            <td>{{row.Price|safe}}</td>
+                                            <td>{{row.Fees|safe}}</td>
+                                            <td>{{row.Cost|safe}}</td>
+                                        </div>
+                                    </tr>
+                                         {% endfor %}
+                                    </tbody>
+                                </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p>&nbsp;</p>
+
+  <div class="row">
+            <div class="col-md-2"></div>
+
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">Final Calculations</div>
+                    <div class="card-body">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <table class="table">
+                                <thead>
+                                        <tr>
+                                            <th>Year</th>
+                                            <th>Long Term Gains</th>
+                                            <th>Long Term Tax</th>
+                                            <th>Short Term Gains</th>
+                                            <th>Short Term Tax</th>
+                                            <th>Total Estimate</th>
+                                        </tr>
+                                        </thead>
+                                    <tbody>
+                                    {% for row in taxes %}
+                                    <tr>
+                                        <div class="row" style="overflow-y:auto;" >
+                                            <td>{{row.Year|safe}}</td>
+                                            <td>{{row.Long_Term_Gains|safe}}</td>
+                                            <td>{{row.Long_Term_Tax|safe}}</td>
+                                            <td>{{row.Short_Term_Gains|safe}}</td>
+                                            <td>{{row.Short_Term_Tax|safe}}</td>
+                                            <td>{{row.Total_Estimate|safe}}</td>
+                                        </div>
+                                    </tr>
+                                         {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+      </div>
+</div>
+
+
+{% endblock %}

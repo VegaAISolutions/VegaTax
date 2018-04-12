@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+    <div class="container">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">Welcome to Taxes made easy</div>
+          <div class="card-body">
+            <h4 class="card-title">Our tax wizard makes calculating your crypto trade taxes as easy as 1-2-3</h4>
+            <p class="card-text">Click continue below to go the first step of our tax wizard!</p>
+              <div align="center"><a href="/step1" class="btn btn-primary">Continue</a></div>
+
+          </div>
+        </div>
+        </div>
+
+    </div>
+    </div>
+
+
+
+    <script>
+
+    (function () {
+    var div = document.createElement("div");
+    document.getElementsByTagName('body')[0].appendChild(div);
+    div.outerHTML = "<div id='botDiv' style='margin-left:155vh;height: 38px; position: fixed; bottom: 0; z-index: 1000; background-color: #fff'><div id='botTitleBar' style='height: 38px; width: 250px; position:fixed; cursor: pointer;'></div><iframe width='400px' height='100px' src='BOTFRAMEWORK_WEB_EMBED_URL'></iframe></div>";
+
+    document.querySelector('body').addEventListener('click', function (e) {
+        e.target.matches = e.target.matches || e.target.msMatchesSelector;
+        if (e.target.matches('#botTitleBar')) {
+            var botDiv = document.querySelector('#botDiv');
+            botDiv.style.height = botDiv.style.height == '400px' ? '38px' : '400px';
+        };
+    });
+}());
+
+    </script>
+{% endblock %}

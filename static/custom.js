@@ -136,6 +136,7 @@ if ( typeof define === 'function' && define.amd ) {
         e.preventDefault()
 
         startUpload(uploadFiles)
+        location.reload(true);
         });
     }
 
@@ -143,7 +144,7 @@ if ( typeof define === 'function' && define.amd ) {
         e.preventDefault();
         this.className = 'upload-drop-zone';
 
-        startUpload(e.dataTransfer.files)
+        startUpload(e.dataTransfer.files);
     }
 
     dropZone.ondragover = function() {

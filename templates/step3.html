@@ -21,13 +21,20 @@
                                             <h3>Processed files</h3>
                                             <div class="list-group">
                                          {% for l in list %}
+                                                <form action="{{url_for('delete_file', filename=l, view='step3')}}" method="delete" enctype="multipart/form-data">
                                             <div style="overflow-y:auto;" class="list-group-item list-group-item-success" >
-                                            {{ l|safe }} <span class="badge alert-success pull-right">Success</span>
-                                            </div>
+                                            {{ l|safe }} <span class="badge alert-success pull-right">
+
+                                                <input class="btn btn-sm btn-primary" type="submit" value="Remove"></input>
+                                                </span>
+
+                                                </div>
+                                                </form>
                                          {% endfor %}
 
                                             </div>
                                         </div>
+
                                     </div>
 
 
@@ -96,8 +103,18 @@
                                         <div align="center"> <button type="submit" class="btn btn-primary">Recalculate</button></div>
 
                                     </div>
+
                                         </div>
                                     </form>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2" align="left">
+                                        <br>
+                                            <form class="form-group" action = "{{url_for('delete_all', view='step3')}}" method = "POST" enctype = "multipart/form-data">
+                                                <button class="btn btn-primary" type = "submit">Start Over</button>
+                                        </form>
+                                        </div>
+                                    <div class="col-md-4"></div>
                                 </div>
                                 </div>
                             </div>

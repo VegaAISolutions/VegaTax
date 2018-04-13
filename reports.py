@@ -114,7 +114,7 @@ def step2():
     return render_template('step2.html', data=taxoptions, taxyears=taxyearoptions)
 
 
-@app.route('/step3',  methods=['GET', 'POST'])
+@app.route('/step3',  methods=['GET', 'POST', 'DELETE'])
 def step3():
     taxoptions = [{'type': 'FIFO'}, {'type': 'LIFO'}]
     taxyearoptions = [{'year': 2018}, {'year': 2017}]
@@ -251,6 +251,9 @@ def reports(request=request,taxyear=2018):
 
 def save_taxinfo(session, taxyear, method='FIFO'):
     query = session.query(Transactions)
+    count = query.count()
+    if count == 0:
+        return False
     txn_history = pd.read_sql(query.statement, query.session.bind, index_col=None)
     txn_history['Price'] = txn_history['Price'].map('${:,.2f}'.format).astype(str)
     txn_history['Fees'] = txn_history['Fees'].map('${:,.2f}'.format).astype(str)
@@ -308,7 +311,7 @@ def save_taxinfo(session, taxyear, method='FIFO'):
     taxes['Total Estimate'] = taxes['Total_Estimate'].map('${:,.2f}'.format).astype(str)
     taxes = taxes[['Tax Year', 'Long Term Gains/Loss', 'Long Term Tax', 'Short Term Gains/Loss', 'Short Term Tax',
                    'Total Estimate']]
-    return taxes
+    return True
 
 @app.route('/download', methods=['GET'])
 def download():
@@ -334,7 +337,7 @@ def send_file2():
                 current.save(os.path.join(uploads, secure_filename(current.filename)))
     except Exception as e:
         print(e)
-        return "There was an issue uploading one or moe files"
+        return "There was an issue uploading one or more files"
 
 
     return "successful_upload"
@@ -355,8 +358,20 @@ def get_filenames():
     return_dict = dict(filenames=filenames)
     return jsonify(return_dict)
 
-@app.route("/delete_all", methods=["POST"])
-def delete_all():
+@app.route("/delete_file/<filename>/<view>", methods=["GET"])
+def delete_file(filename, view):
+    print(filename)
+    try:
+        if filename is not None and filename != '':
+            if os.path.exists(os.path.join(uploads, secure_filename(filename))):
+                os.remove(os.path.join(uploads, secure_filename(filename)))
+    except Exception as e:
+        print(e)
+        return "There was an issue deleting one or more files"
+    return redirect(url_for(view))
+
+@app.route("/delete_all/<view>", methods=["POST"])
+def delete_all(view='step1'):
     Session = sessionmaker(bind=engine)
     session = Session()
     try:
@@ -391,7 +406,7 @@ def delete_all():
     except Exception as e:
         print(e)
 
-    return redirect(url_for('reports'))
+    return redirect(url_for(view))
 
 def create_irs_form(session,taxYear=2017):
     newFileName = '{}8929_2017_test.pdf'.format(taxreport_base)
@@ -622,3 +637,4 @@ def create_directories():
 if __name__ == '__main__':
     create_directories()
     app.run(host='0.0.0.0', port=443, debug=False,threaded=True,ssl_context=('./certs/cert.pem', './certs/cert.key'))
+    #app.run(host='127.0.0.1',port=5000, debug=True, threaded=True)

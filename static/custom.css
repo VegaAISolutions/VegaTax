@@ -442,3 +442,28 @@ input:checked + .slider:before {
     float: left;
     margin-left: 10px;
 }
+
+
+.logo-img{
+  max-width:140%;
+}
+@media only screen and (max-width: 600px) {
+    .logo-img {
+      margin-left:35%;
+      max-width:25%;
+    }
+}
+
+.logo-text h1{
+  color:white;
+  margin-top:15%;
+}
+
+.social{
+   padding-top:20px;
+}
+@media only screen and (max-width: 600px) {
+  .social {
+    padding-top: 0px;
+  }
+}
